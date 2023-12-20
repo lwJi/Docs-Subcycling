@@ -1,0 +1,9 @@
+[parameters]
+bbox = [[-0.5, 0.495], [-0.25, 0.25]]  # computational domain
+cfl  = 0.25
+nx        = 200
+ngh       = 3
+itlast    = 80
+out_every = 20
+initial_data = "sinusoidal"
+# out_dir = "data"
