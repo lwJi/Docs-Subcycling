@@ -2,8 +2,12 @@
 bbox = [[-0.5, 0.495]]  # computational domain
 cfl  = 0.25
 nx        = 200
-ngh       = 3
-itlast    = 80
-out_every = 20
+ngh       = 0
+nbuf      = 2
+itlast    = 800
+out_every = 80
 initial_data = "sinusoidal"
 # out_dir = "data"
+
+[configs]
+redirect_std = true

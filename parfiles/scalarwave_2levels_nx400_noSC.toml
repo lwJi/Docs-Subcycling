@@ -4,9 +4,10 @@ cfl  = 0.25
 nx        = 400
 ngh       = 0
 nbuf      = 8
-itlast    = 1600
-out_every = 160
+itlast    = 3200
+out_every = 320
 initial_data = "sinusoidal"
+subcycling = false
 # out_dir = "data"
 
 [configs]
