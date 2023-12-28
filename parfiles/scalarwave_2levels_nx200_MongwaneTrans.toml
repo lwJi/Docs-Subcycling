@@ -1,11 +1,11 @@
 [parameters]
-bbox = [[-0.5, 0.495], [-0.25, 0.25]]  # computational domain
+bbox = [[-0.4975, 0.4975], [-0.25, 0.25]]  # computational domain
 cfl  = 0.25
 nx        = 200
 ngh       = 0
 nbuf      = 2
-itlast    = 800
-out_every = 80
+itlast    = 1600
+out_every = 160
 Mongwane  = true
 apply_trans_zone = true
 initial_data = "sinusoidal"
