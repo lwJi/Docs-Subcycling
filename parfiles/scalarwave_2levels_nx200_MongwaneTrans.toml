@@ -1,5 +1,6 @@
 [parameters]
-bbox = [[-0.4975, 0.4975], [-0.25, 0.25]]  # computational domain
+#bbox = [[-0.4975, 0.4975], [-0.25, 0.25]]  # computational domain
+bbox = [[-0.5, 0.495], [-0.25, 0.25]]  # computational domain
 cfl  = 0.25
 nx        = 200
 ngh       = 0
