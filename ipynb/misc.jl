@@ -9,6 +9,7 @@ function plot_error(
     nbuf = 2,
     lev = 1,
     tmax = 2.0,
+    cord = 0,
     parent_dir = expanduser("~/docker-workspace/simulations/"),
 )
     plt = plot()
@@ -23,7 +24,7 @@ function plot_error(
                 x_in = x[1+nbuf:length(x)-nbuf]
                 f_in = f[1+nbuf:length(x)-nbuf]
                 error = (f_in - f_analytical.(tmax, x_in))
-                plt = plot!(x_in, error)
+                plt = plot!(x_in, error * (2^cord)^(i-1))
             end
         end
     end
