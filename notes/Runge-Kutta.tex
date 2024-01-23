@@ -51,6 +51,38 @@ Rochester Institute of Technology, Rochester, New York 14623, USA}
 \section{Explicit Runge-Kutta Scheme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+For the fundamental therorem of calculus,
+\begin{align}
+    y(t_{n+1})
+    &=y(t_n)+\int_{t_n}^{t_{n+1}}f(y(\tau),\tau)d\tau
+    =y(t_n)+h\int_0^1f(y(t_n+h\tau), t_n+h\tau)d\tau
+\end{align}
+
+replace the integral with a quadrature approximation
+\begin{align}
+    y_{n+1}=y_n+h\Sigma_{i=1}^s b_if(y(t_n+c_ih), t_n+c_ih)
+\end{align}
+then we have to construct an approximation, denoted by $Y_i\simeq y(t_n+c_ih)$.
+With explicit Runge-Kutta methods you construct $Y_i$ using
+\begin{align}
+    Y_1=y_n,\quad
+    f(Y_1, t_n),\quad
+    f(Y_2, t_n+hc_2), \quad
+    ..., \quad
+    f(Y_{i-1}, t_n+hc_{i-1}).
+\end{align}
+Then
+\begin{align}
+    Y_1&=y_n, \\
+    Y_2&=y_n+h a_{21}f(Y_1,t_n), \\
+    Y_3&=y_n+h a_{31}f(Y_1,t_n) + h a_{32}f(Y_2, t_n+h c_2), \\
+       &... \\
+    Y_s&=y_n+h\Sigma_{i=1}^{s-1}a_{si}f(Y_i, t_n+h c_i). \\
+    y_{n+1}
+       &=y_n+h\Sigma_{i=1}^sb_if(Y_i, t_n+h c_i)
+\end{align}
+
+More
 \begin{align}
     y'
     &=f(y,t)
@@ -114,6 +146,109 @@ we have the order condition
 \end{align}
 
 \subsection{Three-stage, third-order RK}
+
+\begin{align}
+    Y_i
+    &= y_n + h \Sigma_{j=1}^{s}a_{ij}f(Y_j, t_c+c_jh)
+    \\
+    y_{n+1}
+    &=y_n + h \Sigma_{i=1}^{s}b_i f(Y_i, t_n+c_ih)
+\end{align}
+
+Consider $t_n=0, y(t)=t \Rightarrow y(0)=0, y'=1$. For first order accuracy, need to obtain the exact
+solution of $y(t)=t$.
+\begin{align}
+    Y_i
+    &=y_n+h\Sigma_{j=1}^s a_{ij} \simeq y(t_n+c_ih) = y_n+hc_i, \\
+    y_{n+1}
+    &=y_n + h\Sigma_{i=1}^sb_i = y_n + h.
+\end{align}
+\begin{align}
+    \Rightarrow &
+    \left\{
+        \begin{matrix}
+            &\Sigma_{j=1}^sa_{ij} = c_i, \\
+            &\Sigma_{i=1}^sb_i = 1.
+        \end{matrix}
+    \right.
+\end{align}
+where is necessary for first-order accuracy.
+
+For up to the 3-order conditions, it sufices to study the case of autonomous differential
+equations, $y'=f(y)$.
+
+\begin{align}
+    Y_1&=y_n, \\
+    Y_2&=y_n+hc_2f, \\
+    Y_3&=y_n+h(c_3-a_{32})f(Y_1) + ha_{32}f(Y_2) \\
+       &=y_n+h(c_3-a_{32})f + ha_{32}
+       \left(
+           f+hc_2f f_y+\frac{(hc_2f)^2}{2}f_{yy}+\mathcal{O}(h^3)
+        \right) \\
+       &=y_n + hc_3f + h^2a_{32}c_2f_yf+\frac{h^3a_{32}c_2^2}{2}f_{yy}f^2+\mathcal{O}(h^4)
+\end{align}
+where we have used
+\begin{align}
+    f(Y_2)&=f(y_n+hc_2f)=f+hc_2f f_y+\frac{(hc_2f)^2}{2}f_{yy}+\mathcal{O}(h^3)\\
+    f(Y_3)&=f(y_n + hc_3f + h^2a_{32}c_2f_yf + \mathcal{O}(h^3)) \\
+          &=f + f_y
+          \left(
+              hc_3f+h^2a_{32}c_2f_yf + \mathcal{O}(h^3)
+          \right)
+          +\frac{1}{2}f_{yy}
+          \left(
+              hc_3f+h^2a_{32}c_2f_yf + \mathcal{O}(h^3)
+          \right)^2
+          + \mathcal{O}(h^3)
+          \\
+          &=f + hc_3ff_y + h^2a_{32}c_2f_y^2 f
+          + \frac{1}{2}f_{yy}(h^2c_3^2f^2)
+          + \mathcal{O}(h^3)
+          \\
+          &=f + hc_3ff_y
+          + h^2(a_{32}c_2f_y^2 f + \frac{1}{2}c_3^2f^2f_{yy})
+          + \mathcal{O}(h^3)
+\end{align}
+then
+\begin{align}
+    y_{n+1}
+    &=y_n + hb_1f + h b_2 \left(f+hc_2f f_y+\frac{(hc_2f)^2}{2}f_{yy}\right) \\
+    &\qquad\qquad\qquad
+    + h b_3
+    \left(
+        f + hc_3ff_y + h^2(a_{32}c_2f_y^2 f + \frac{1}{2}c_3^2f^2f_{yy})
+    \right)
+    + \mathcal{O}(h^4) \\
+    &=y_n + h(b_1+b_2+b_3)f
+    + h^2(c_2b_2+c_3b_3)f_yf
+    + h^3(\frac{1}{2}(b_2c_3^2+b_3c_3^2)f_{yy}f^2 + b_3a_{32}c_2f_y^2f)
+    + \mathcal{O}(h^4)
+\end{align}
+
+Tayler expansion
+\begin{align}
+    y(t_n+h)
+    &=y_n + hf + \frac{h^2}{2}(f f_y)
+    + \frac{h^3}{6}
+    \left(
+        ff_y^2+f^2f_{yy}
+    \right)
+    + \mathcal{O}(h^4)
+\end{align}
+where we have used
+\begin{align}
+    y'=f, \quad
+    y''=(f\frac{\partial}{\partial y})f=ff_y, \quad
+    y'''=(f\frac{\partial}{\partial y})(f f_y)=ff_yf_y+f^2f_{yy}
+\end{align}
+
+Compare the above two equations, we got the order condition
+\begin{align}
+    &b_1+b_2+b_3 = 1, \\
+    &b_2c_2+b_3c_3 = \frac{1}{2}, \\
+    &\frac{1}{2}(b_2c_2^2+b_3c_3^3)=\frac{1}{6}, \\
+    &b_ca_{32}c_2 = \frac{1}{6}.
+\end{align}
 
 
 
