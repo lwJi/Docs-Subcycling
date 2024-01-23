@@ -1,0 +1,126 @@
+\documentclass[prd,aps,a4paper,superscriptaddress,onecolumn,footinbib]{revtex4}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{dcolumn}
+\usepackage{bm}
+\usepackage{upgreek}
+\usepackage{slashed}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{dsfont}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{ulem}
+\usepackage{cancel}
+\usepackage{mathtools}
+\setcounter{MaxMatrixCols}{18}
+
+
+
+%%
+\newcommand{\mytext}{}
+\newcommand{\LJ}[1]{{\textcolor{blue}{\mytext{LJ: #1}} }}
+\newcommand{\WT}[1]{{\textcolor{red}{\mytext{WT: #1}} }}
+%%
+
+
+
+\begin{document}
+\title{Notes on Runge-Kutta method}
+
+\author{Liwei~Ji}
+\email{ljsma@rit.edu}
+\affiliation{Center for Computational Relativity and Gravitation,
+Rochester Institute of Technology, Rochester, New York 14623, USA}
+
+\maketitle
+
+\tableofcontents
+
+\lstset{numbers=left,
+  numberstyle= \tiny,
+  keywordstyle= \color{ blue!70},commentstyle=\color{red!50!green!50!blue!50},
+  frame=shadowbox,
+  rulesepcolor= \color{ red!20!green!20!blue!20}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Explicit Runge-Kutta Scheme}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{align}
+    y'
+    &=f(y,t)
+    \\
+    y''
+    &=\frac{d}{dt}y'
+    =\left(\frac{\partial}{\partial t}+f\frac{\partial}{\partial y}\right)f
+    =\frac{\partial f}{\partial t}+f\frac{\partial f}{\partial y}
+\end{align}
+
+\subsection{Two-stage, second-order RK}
+
+\begin{align}
+    Y_1&=y_n \\
+    Y_2&=y_n+h a_{21}f(Y_1, t_n) \\
+    Y_3&=y_n+h b_1f(Y_1, t_n)+h b_2f(Y_2, t_n+c_2h)
+\end{align}
+
+Taylar expand about $(y_n, t_n)$:
+\begin{align}
+    y_{n+1}
+    &=y_n + h b_1 f(y_n, t_n) + h b_2
+    \left[
+        f + h
+        \left(
+            a_{21} \frac{\partial f}{\partial y} f + c_2\frac{\partial f}{\partial t}
+        \right)
+    \right]
+    + \mathcal{O}(h^3)
+    \\
+    &=y_n + h(b_1+b_2)f + h^2 b_2
+    \left(a_{21}\frac{\partial f}{\partial y}f + c_2\frac{\partial f}{\partial t}\right)
+    + \mathcal{O}(h^3)
+\end{align}
+since
+\begin{align}
+    f(Y_2, t_n+c_2h)
+    &=f(y_n+h a_{21}f(Y_1, t_n), t_n+c_2h) \\
+    &=f(y_n, t_n) + h
+    \left[
+        \frac{\partial f}{\partial y}(y_n, t_n) a_{21}f(y_n, t_n)
+        +\frac{\partial f}{\partial t}(y_n, t_n) c_2
+    \right]
+    + \mathcal{O}(h^2)
+\end{align}
+
+Compare to the Tayler expansion
+\begin{align}
+    y(t_n+h)
+    &=y(t_n) + hy'(t_n) + \frac{h^2}{2}y''(t_n)
+    + \mathcal{O}(h^3)
+    \\
+    &=y_n + h f + \frac{h^2}{2} \left(\frac{\partial f}{\partial t}+f\frac{\partial f}{\partial y}\right)
+    + \mathcal{O}(h^3)
+\end{align}
+we have the order condition
+\begin{align}
+    &b_1+b_2 = 1 \\
+    &b_2a_{21} = \frac{1}{2} \\
+    &b_2c_2 = \frac{1}{2}
+\end{align}
+
+\subsection{Three-stage, third-order RK}
+
+
+
+
+
+
+%\bibliographystyle{unsrt}
+%\bibliography{references}
+
+\end{document}
