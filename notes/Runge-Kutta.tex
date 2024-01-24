@@ -91,6 +91,24 @@ More
     &=\frac{d}{dt}y'
     =\left(\frac{\partial}{\partial t}+f\frac{\partial}{\partial y}\right)f
     =\frac{\partial f}{\partial t}+f\frac{\partial f}{\partial y}
+    \\
+    y'''
+    &=\frac{d}{dt}y''
+    =\left(\frac{\partial}{\partial t}+f\frac{\partial}{\partial y}\right)
+    \left(\frac{\partial f}{\partial t}+f\frac{\partial f}{\partial y}\right)
+    \\
+    &=\frac{\partial^2f}{\partial t^2}
+    +f\frac{\partial^2f}{\partial t\partial y}
+    +\frac{\partial f}{\partial t}\frac{\partial f}{\partial y}
+    +f\frac{\partial^2f}{\partial y \partial t}
+    +f\frac{\partial f}{\partial y}\frac{\partial f}{\partial y}
+    +f^2\frac{\partial^2 f}{\partial y^2}
+    \\
+    &=\frac{\partial^2f}{\partial t^2}
+    +f^2\frac{\partial^2 f}{\partial y^2}
+    +2f\frac{\partial^2f}{\partial t\partial y}
+    +\frac{\partial f}{\partial t}\frac{\partial f}{\partial y}
+    +f\left(\frac{\partial f}{\partial y}\right)^2
 \end{align}
 
 \subsection{Two-stage, second-order RK}
@@ -98,7 +116,8 @@ More
 \begin{align}
     Y_1&=y_n \\
     Y_2&=y_n+h a_{21}f(Y_1, t_n) \\
-    Y_3&=y_n+h b_1f(Y_1, t_n)+h b_2f(Y_2, t_n+c_2h)
+    y_{n+1}
+       &=y_n+h b_1f(Y_1, t_n)+h b_2f(Y_2, t_n+c_2h)
 \end{align}
 
 Taylar expand about $(y_n, t_n)$:
@@ -149,7 +168,7 @@ we have the order condition
 
 \begin{align}
     Y_i
-    &= y_n + h \Sigma_{j=1}^{s}a_{ij}f(Y_j, t_c+c_jh)
+    &= y_n + h \Sigma_{j=1}^{i-1}a_{ij}f(Y_j, t_c+c_jh)
     \\
     y_{n+1}
     &=y_n + h \Sigma_{i=1}^{s}b_i f(Y_i, t_n+c_ih)
@@ -159,16 +178,22 @@ Consider $t_n=0, y(t)=t \Rightarrow y(0)=0, y'=1$. For first order accuracy, nee
 solution of $y(t)=t$.
 \begin{align}
     Y_i
-    &=y_n+h\Sigma_{j=1}^s a_{ij} \simeq y(t_n+c_ih) = y_n+hc_i, \\
+    &=y_n+h\Sigma_{j=1}^{i-1} a_{ij} \simeq y(t_n+c_ih) = y_n+hc_i, \\
     y_{n+1}
     &=y_n + h\Sigma_{i=1}^sb_i = y_n + h.
 \end{align}
 \begin{align}
-    \Rightarrow &
+    &\Rightarrow
     \left\{
         \begin{matrix}
-            &\Sigma_{j=1}^sa_{ij} = c_i, \\
+            &\Sigma_{j=1}^{i-1}a_{ij} = c_i, \\
             &\Sigma_{i=1}^sb_i = 1.
+        \end{matrix}
+    \right.
+    \Rightarrow
+    \left\{
+        \begin{matrix}
+            &a_{21} = c_2
         \end{matrix}
     \right.
 \end{align}
