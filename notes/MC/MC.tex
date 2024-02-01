@@ -143,7 +143,7 @@ Following the convention of Mongwane, we define
 \begin{align}
     k_i:=hf(Y_i,t_n+hc_i),
 \end{align}
-then the dense output formula are
+then the dense output formula are \cite{mongwane2015toward}
 \begin{empheq}[box=\fbox]{align}
     y(t_n+\theta h)
     &=y_n+\Sigma_{i=1}^4b_i(\theta)k_i+\mathcal{O}(h^4),
@@ -162,7 +162,7 @@ where
 
 \subsection{Taylor expansion of $k_i$ for RK4 up to $\mathcal{O}(h^3)$}
 
-The taylor expansion of $k_i$ around $t_n$ are
+The taylor expansion of $k_i$ around $t_n$ are \cite{mongwane2015toward}
 \begin{align}
     k_1&=hy', \\
     k_2&=hy'+\frac{h^2}{2}y''+\frac{h^3}{8}(y'''-f_yy''), \\
@@ -174,7 +174,7 @@ and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the d
 
 \subsection{Taylor expansion of $Y_i$ for RK4 up to $\mathcal{O}(h^3)$}
 
-Similarly, we can also expand $Y_i$ instead of $k_i$
+Similarly, we can also expand $Y_i$ instead of $k_i$ \cite{mccorquodale2011high}
 \begin{align}
     Y_1&=y_n, \label{eq:Y1} \\
     Y_2&=y_n + \frac{h}{2}y', \label{eq:Y2} \\
@@ -201,7 +201,7 @@ and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the d
 
 
 
-%\bibliographystyle{unsrt}
-%\bibliography{references}
+\bibliographystyle{unsrt}
+\bibliography{refs}
 
 \end{document}
