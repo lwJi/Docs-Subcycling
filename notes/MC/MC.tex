@@ -52,33 +52,36 @@ Rochester Institute of Technology, Rochester, New York 14623, USA}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Explicit Runge-Kutta Scheme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-For the fundamental therorem of calculus,
+To integrate the ODE
+\begin{align}
+    \frac{dy}{dt}=f(y,t),
+\end{align}
+we start from the fundamental therorem of calculus
 \begin{align}
     y(t_{n+1})
     &=y(t_n)+\int_{t_n}^{t_{n+1}}f(y(\tau),\tau)d\tau
-    =y(t_n)+h\int_0^1f(y(t_n+h\tau), t_n+h\tau)d\tau
+    =y(t_n)+h\int_0^1f(y(t_n+h\tau), t_n+h\tau)d\tau.
 \end{align}
-replace the integral with a quadrature approximation
+We can replace the integral with a quadrature approximation
 \begin{align}
-    y_{n+1}=y_n+h\Sigma_{i=1}^s b_if(y(t_n+c_ih), t_n+c_ih)
+    y_{n+1}=y_n+h\Sigma_{i=1}^s b_if(y(t_n+c_ih), t_n+c_ih),
 \end{align}
-then we have to construct an approximation, denoted by $Y_i\simeq y(t_n+c_ih)$.
-With explicit Runge-Kutta methods you construct $Y_i$ using
+where we have to construct an approximation, denoted by $Y_i\simeq y(t_n+c_ih)$.
+With explicit Runge-Kutta method we construct $Y_i$ using
 \begin{align}
-    Y_1=y_n,\quad
-    f(Y_1, t_n),\quad
+    y_n,\quad
+    f(Y_1, t_n+hc_1),\quad
     f(Y_2, t_n+hc_2), \quad
-    ..., \quad
+       ..., \quad
     f(Y_{i-1}, t_n+hc_{i-1}).
 \end{align}
-Then
+Then the explicit Runge-Kutta method can be sum up as the following,
 \begin{empheq}[box=\fbox]{align}
-    Y_s&=y_n+h\Sigma_{i=1}^{s-1}a_{si}f(Y_i, t_n+h c_i). \\
+    Y_s&=y_n+h\Sigma_{i=1}^{s-1}a_{si}f(Y_i, t_n+h c_i), \\
     y_{n+1}
-       &=y_n+h\Sigma_{i=1}^sb_if(Y_i, t_n+h c_i)
+       &=y_n+h\Sigma_{i=1}^sb_if(Y_i, t_n+h c_i).
 \end{empheq}
-More
+Further more for the chain rule,
 \begin{align}
     y'
     &=f(y,t)
@@ -101,13 +104,15 @@ More
     +f^2\frac{\partial^2 f}{\partial y^2}
     \nonumber\\
     &=\frac{\partial^2f}{\partial t^2}
-    +f^2\frac{\partial^2 f}{\partial y^2}
     +2f\frac{\partial^2f}{\partial t\partial y}
     +\frac{\partial f}{\partial t}\frac{\partial f}{\partial y}
+    +f^2\frac{\partial^2 f}{\partial y^2}
     +f\left(\frac{\partial f}{\partial y}\right)^2
 \end{align}
 
-Consider $t_n=0, y(t)=t \Rightarrow y(0)=0, y'=1$. For first order accuracy, need to obtain the exact
+Consider the case
+$t_n=0,\; y(t)=t \Rightarrow y(0)=0, y'=1$,
+for the first order accuracy, the above scheme need to obtain the exact
 solution of $y(t)=t$.
 \begin{align}
     Y_i
@@ -119,77 +124,79 @@ solution of $y(t)=t$.
     \left\{
         \begin{matrix}
             &\Sigma_{j=1}^{i-1}a_{ij} = c_i, \\
-            &\Sigma_{i=1}^sb_i = 1.
-        \end{matrix}
-    \right.
-    \Rightarrow
-    \left\{
-        \begin{matrix}
-            &a_{21} = c_2
+            &\Sigma_{i=1}^sb_i = 1,
         \end{matrix}
     \right.
 \end{align}
-where is necessary for first-order accuracy.
+$a_{21}=c_2$ for example.
 
-For up to the 3-order conditions, it sufices to study the case of \textbf{autonomous} differential equations, $y'=f(y)$. Then
+For up to the 3-order conditions, it sufices to study the case of \textbf{autonomous} differential equations, $y'=f(y)$, where the chain rule become
 \begin{align}
     y'&=f, \\
     y''&=(f\frac{\partial}{\partial y})f=ff_y, \\
-    y'''&=(f\frac{\partial}{\partial y})(f f_y)=ff_yf_y+f^2f_{yy}
+    y'''&=(f\frac{\partial}{\partial y})(f f_y)=ff_y^2+f^2f_{yy}
+\end{align}
+
+\subsection{Dense Output}
+
+Following the convention of Mongwane, we define
+\begin{align}
+    k_i:=hf(Y_i,t_n+hc_i),
+\end{align}
+then the dense output formula are
+\begin{empheq}[box=\fbox]{align}
+    y(t_n+\theta h)
+    &=y_n+\Sigma_{i=1}^4b_i(\theta)k_i+\mathcal{O}(h^4),
+    \label{eq:denseoutput1} \\
+    \frac{d^{(m)}}{dt^{(m)}}y(t_n+\theta h)
+    &=\frac{1}{h^m}\Sigma_{i=1}^sk_i
+    \frac{d^{(m)}}{d\theta^{(m)}}b_i(\theta)+\mathcal{O}(h^{4-m}).
+    \label{eq:denseoutput2}
+\end{empheq}
+where
+\begin{align}
+    b_1(\theta)&=\theta-\frac{3}{2}\theta^2+\frac{2}{3}\theta^3, \\
+    b_2(\theta)&=b_3(\theta)=\theta^2-\frac{2}{3}\theta^3, \\
+    b_4(\theta)&=-\frac{1}{2}\theta^2+\frac{2}{3}\theta^3.
 \end{align}
 
 \subsection{Taylor expansion of $k_i$ for RK4 up to $\mathcal{O}(h^3)$}
 
-Following the convention of Mongwane, we defined
-\begin{align}
-    k_i=hf(Y_i,t_n+hc_i)
-\end{align}
-then
+The taylor expansion of $k_i$ around $t_n$ are
 \begin{align}
     k_1&=hy', \\
     k_2&=hy'+\frac{h^2}{2}y''+\frac{h^3}{8}(y'''-f_yy''), \\
     k_3&=hy'+\frac{h^2}{2}y''+\frac{h^3}{8}(y'''+f_yy'').
 \end{align}
-where $f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^3}$,
-and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula.
+where
+$f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^3_{(c)}}$,
+and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula \eqref{eq:denseoutput1}-\eqref{eq:denseoutput2}.
 
 \subsection{Taylor expansion of $Y_i$ for RK4 up to $\mathcal{O}(h^3)$}
 
-Similarly, we can also expand $Y_i$ instead of $k_i$, and we have
+Similarly, we can also expand $Y_i$ instead of $k_i$
 \begin{align}
     Y_1&=y_n, \label{eq:Y1} \\
     Y_2&=y_n + \frac{h}{2}y', \label{eq:Y2} \\
     Y_3&=y_n + \frac{h}{2}y' + \frac{h^2}{4}y''+\frac{h^3}{16}(y'''-f_yy'') \label{eq:Y3} \\
     Y_4&=y_n + hy' + \frac{h^2}{2}y''+\frac{h^3}{8}(y'''+f_yy'') \label{eq:Y4}
 \end{align}
-where $f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^3}$,
-and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula,
-\begin{align}
-    y(t_n+\theta h)
-    &=y_n+\Sigma_{i=1}^4b_i(\theta)k^{(c)}_i+\mathcal{O}(h^4),
-    \label{eq:denseoutput1} \\
-    \frac{d^{(m)}}{dt^{(m)}}y(t_n+\theta h)
-    &=\frac{1}{h^m}\Sigma_{i=1}^sk^{(c)}_i
-    \frac{d^{(m)}}{d\theta^{(m)}}b_i(\theta)+\mathcal{O}(h^{4-m}).
-    \label{eq:denseoutput2}
-\end{align}
-where
-$b_1(\theta)=\theta-\frac{3}{2}\theta^2+\frac{2}{3}\theta^3$,
-$b_2(\theta)=b_3(\theta)=\theta^2-\frac{2}{3}\theta^3$,
-$b_4(\theta)=-\frac{1}{2}\theta^2+\frac{2}{3}\theta^3$.
+where $f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^3_{(c)}}$,
+and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula \eqref{eq:denseoutput1}-\eqref{eq:denseoutput2}.
 
-\subsubsection{Pseudo code}
+\subsubsection{Pseudocode of MC's method}
 \begin{enumerate}
-    \item integrate coarse grid from $t_n$ to $t_n+h^{(c)}$ and store $k^{(c)}_i$
-        somewhere,
-    \item interpolate in time for $y,y',y'',y'''$ using
-        \eqref{eq:denseoutput1}-\eqref{eq:denseoutput2}
+    \item Integrate coarse grid from $t_n$ to $t_n+h^{(c)}$ and store $k^{(c)}_i$
+        somewhere.
+    \item Interpolate in time for $y,y',y'',y'''$ using
+        \eqref{eq:denseoutput1}-\eqref{eq:denseoutput2} with stored $k_i^{(c)}$
         \begin{enumerate}[label=(\alph*)]
             \item at $\theta=0.0$ for the first fine step,
-            \item at $\theta=0.5$ for the second fine step,
+            \item at $\theta=0.5$ for the second fine step.
         \end{enumerate}
-    \item calculate $Y_i$ for the fine grid using \eqref{eq:Y1}-\eqref{eq:Y4}.
-    \item interpolate in space to fill $Y_i$ in the fine ghost points.
+    \item Calculate $Y_i$ for the first and second fine steps using \eqref{eq:Y1}-\eqref{eq:Y4}.
+    \item Interpolate in space to fill $Y_i$ in the fine ghost points.
+    \item Repeat.
 \end{enumerate}
 
 
