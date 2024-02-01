@@ -7,7 +7,7 @@
 (* ::Input::Initialization:: *)
 Y[s_]:=y0+h Sum[Subscript[a, s,i]f[Y[i], t0+h Subscript[c, i]],{i,1,s-1}];
 y1[s_]:=y0+h Sum[Subscript[b, i]f[Y[i], t0+h Subscript[c, i]],{i,1,s}];
-k[i_]:= h f[Y[i], t0+h Subscript[c, i]];
+k[i_]:= f[Y[i], t0+h Subscript[c, i]];
 Protect[y0,t0, h, a, b,c];
 Subscript[c, 1]=0;
 

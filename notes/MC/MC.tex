@@ -81,6 +81,10 @@ Then the explicit Runge-Kutta method can be sum up as the following,
     y_{n+1}
        &=y_n+h\Sigma_{i=1}^sb_if(Y_i, t_n+h c_i).
 \end{empheq}
+We can also introduce the intermediate slopes as $k_i:=f(Y_i,t_n+hc_i)$, then
+\begin{align}
+    y_{n+1}&=y_n+h\Sigma_{i=1}^sb_ik_i.
+\end{align}
 Further more for the chain rule,
 \begin{align}
     y'
@@ -139,17 +143,13 @@ For up to the 3-order conditions, it sufices to study the case of \textbf{autono
 
 \subsection{Dense Output}
 
-Following the convention of Mongwane, we define
-\begin{align}
-    k_i:=hf(Y_i,t_n+hc_i),
-\end{align}
-then the dense output formula are \cite{mongwane2015toward}
+The dense output formula are \cite{mongwane2015toward}
 \begin{empheq}[box=\fbox]{align}
     y(t_n+\theta h)
-    &=y_n+\Sigma_{i=1}^4b_i(\theta)k_i+\mathcal{O}(h^4),
+    &=y_n+h\Sigma_{i=1}^4b_i(\theta)k_i+\mathcal{O}(h^4),
     \label{eq:denseoutput1} \\
     \frac{d^{(m)}}{dt^{(m)}}y(t_n+\theta h)
-    &=\frac{1}{h^m}\Sigma_{i=1}^sk_i
+    &=\frac{1}{h^{(m-1)}}\Sigma_{i=1}^sk_i
     \frac{d^{(m)}}{d\theta^{(m)}}b_i(\theta)+\mathcal{O}(h^{4-m}).
     \label{eq:denseoutput2}
 \end{empheq}
@@ -160,16 +160,16 @@ where
     b_4(\theta)&=-\frac{1}{2}\theta^2+\frac{2}{3}\theta^3.
 \end{align}
 
-\subsection{Taylor expansion of $k_i$ for RK4 up to $\mathcal{O}(h^3)$}
+\subsection{Taylor expansion of $k_i$ for RK4 up to $\mathcal{O}(h^2)$}
 
 The taylor expansion of $k_i$ around $t_n$ are \cite{mongwane2015toward}
 \begin{align}
-    k_1&=hy', \\
-    k_2&=hy'+\frac{h^2}{2}y''+\frac{h^3}{8}(y'''-f_yy''), \\
-    k_3&=hy'+\frac{h^2}{2}y''+\frac{h^3}{8}(y'''+f_yy'').
+    k_1&=y', \\
+    k_2&=y'+\frac{h}{2}y''+\frac{h^2}{8}(y'''-f_yy''), \\
+    k_3&=y'+\frac{h}{2}y''+\frac{h^2}{8}(y'''+f_yy'').
 \end{align}
 where
-$f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^3_{(c)}}$,
+$f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^2_{(c)}}$,
 and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula \eqref{eq:denseoutput1}-\eqref{eq:denseoutput2}.
 
 \subsection{Taylor expansion of $Y_i$ for RK4 up to $\mathcal{O}(h^3)$}
@@ -181,7 +181,7 @@ Similarly, we can also expand $Y_i$ instead of $k_i$ \cite{mccorquodale2011high}
     Y_3&=y_n + \frac{h}{2}y' + \frac{h^2}{4}y''+\frac{h^3}{16}(y'''-f_yy'') \label{eq:Y3} \\
     Y_4&=y_n + hy' + \frac{h^2}{2}y''+\frac{h^3}{8}(y'''+f_yy'') \label{eq:Y4}
 \end{align}
-where $f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^3_{(c)}}$,
+where $f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^2_{(c)}}$,
 and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula \eqref{eq:denseoutput1}-\eqref{eq:denseoutput2}.
 
 \subsubsection{Pseudocode of MC's method}
