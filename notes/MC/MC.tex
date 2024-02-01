@@ -16,6 +16,7 @@
 \usepackage{ulem}
 \usepackage{cancel}
 \usepackage{mathtools}
+\usepackage{enumitem}
 \setcounter{MaxMatrixCols}{18}
 
 
@@ -162,9 +163,34 @@ Similarly, we can also expand $Y_i$ instead of $k_i$, and we have
     Y_4&=y_n + hy' + \frac{h^2}{2}y''+\frac{h^3}{8}(y'''+f_yy'') \label{eq:Y4}
 \end{align}
 where $f_yy''\equiv\left(y''\right)^2/y'=\frac{4(k^{(c)}_3-k^{(c)}_2)}{h^3}$,
-and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula.
-Then we can use \eqref{eq:Y1}-\eqref{eq:Y4} to fill in the ghost point of fine grid.
+and $y',y'',y'''$ can be represented with $k^{(c)}_i$ of coarse grid using the dense output formula,
+\begin{align}
+    y(t_n+\theta h)
+    &=y_n+\Sigma_{i=1}^4b_i(\theta)k^{(c)}_i+\mathcal{O}(h^4),
+    \label{eq:denseoutput1} \\
+    \frac{d^{(m)}}{dt^{(m)}}y(t_n+\theta h)
+    &=\frac{1}{h^m}\Sigma_{i=1}^sk^{(c)}_i
+    \frac{d^{(m)}}{d\theta^{(m)}}b_i(\theta)+\mathcal{O}(h^{4-m}).
+    \label{eq:denseoutput2}
+\end{align}
+where
+$b_1(\theta)=\theta-\frac{3}{2}\theta^2+\frac{2}{3}\theta^3$,
+$b_2(\theta)=b_3(\theta)=\theta^2-\frac{2}{3}\theta^3$,
+$b_4(\theta)=-\frac{1}{2}\theta^2+\frac{2}{3}\theta^3$.
 
+\subsubsection{Pseudo code}
+\begin{enumerate}
+    \item integrate coarse grid from $t_n$ to $t_n+h^{(c)}$ and store $k^{(c)}_i$
+        somewhere,
+    \item interpolate in time for $y,y',y'',y'''$ using
+        \eqref{eq:denseoutput1}-\eqref{eq:denseoutput2}
+        \begin{enumerate}[label=(\alph*)]
+            \item at $\theta=0.0$ for the first fine step,
+            \item at $\theta=0.5$ for the second fine step,
+        \end{enumerate}
+    \item calculate $Y_i$ for the fine grid using \eqref{eq:Y1}-\eqref{eq:Y4}.
+    \item interpolate in space to fill $Y_i$ in the fine ghost points.
+\end{enumerate}
 
 
 
