@@ -77,9 +77,9 @@ With explicit Runge-Kutta method we construct $Y_i$ using
 \end{align}
 Then the explicit Runge-Kutta method can be sum up as the following,
 \begin{empheq}[box=\fbox]{align}
-    Y_s&=y_n+h\Sigma_{i=1}^{s-1}a_{si}f(Y_i, t_n+h c_i), \\
+    Y_s&=y_n+h\Sigma_{i=1}^{s-1}a_{si}f(Y_i, t_n+h c_i), \label{eq:RK_Y} \\
     y_{n+1}
-       &=y_n+h\Sigma_{i=1}^sb_if(Y_i, t_n+h c_i).
+       &=y_n+h\Sigma_{i=1}^sb_if(Y_i, t_n+h c_i). \label{eq:RK_y}
 \end{empheq}
 We can also introduce the intermediate slopes as $k_i:=f(Y_i,t_n+hc_i)$, then
 \begin{align}
@@ -143,7 +143,26 @@ For up to the 3-order conditions, it sufices to study the case of \textbf{autono
 
 \subsection{Dense Output}
 
-The dense output formula are \cite{mongwane2015toward}
+Consider formulas of the form for a 4-stage Runge-Kutta method \cite{alexander1990solving}
+\begin{align}
+    u(\theta)
+    &=y_n+h\Sigma_{i=1}^4b_i(\theta)k_i.
+\end{align}
+where $k_i$ is defined below eq.~\eqref{eq:RK_y},
+and $b_i(\theta)$ are polynomicals to be determined such that
+$u(\theta)-y(x_0+\theta h)=\mathcal{O}(h^{p^*+1})$.
+We write the polynomials $b_j(\theta)$ as
+\begin{align}
+    b_j(\theta)=\Sigma_{q=1}^{p^*}b_{jq}\theta^q.
+\end{align}
+For the 4-stage RK4 with $p^*=3$ the order condition produce a unique solution
+\begin{align}
+    b_1(\theta)&=\theta-\frac{3}{2}\theta^2+\frac{2}{3}\theta^3, \\
+    b_2(\theta)&=b_3(\theta)=\theta^2-\frac{2}{3}\theta^3, \\
+    b_4(\theta)&=-\frac{1}{2}\theta^2+\frac{2}{3}\theta^3.
+\end{align}
+
+The dense output formula can be summarized as \cite{mongwane2015toward}
 \begin{empheq}[box=\fbox]{align}
     y(t_n+\theta h)
     &=y_n+h\Sigma_{i=1}^4b_i(\theta)k_i+\mathcal{O}(h^4),
@@ -153,12 +172,6 @@ The dense output formula are \cite{mongwane2015toward}
     \frac{d^{(m)}}{d\theta^{(m)}}b_i(\theta)+\mathcal{O}(h^{4-m}).
     \label{eq:denseoutput2}
 \end{empheq}
-where
-\begin{align}
-    b_1(\theta)&=\theta-\frac{3}{2}\theta^2+\frac{2}{3}\theta^3, \\
-    b_2(\theta)&=b_3(\theta)=\theta^2-\frac{2}{3}\theta^3, \\
-    b_4(\theta)&=-\frac{1}{2}\theta^2+\frac{2}{3}\theta^3.
-\end{align}
 
 \subsection{Taylor expansion of $k_i$ for RK4 up to $\mathcal{O}(h^2)$}
 
