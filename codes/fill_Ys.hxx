@@ -3,9 +3,9 @@
  * please take a look at AMReX-Codes/amrex/Src/AmrCore/AMReX_FillPatcher.H
  * for more information */
 void fill_Ys(
-        /* output: fine Y_i, depend on which stage (1-4))*/
+        /* output: fine Y_i, depend on which stage (1,2,3,4))*/
         CCTK_REAL Yi,
-        /* input: which RK stage */
+        /* input: which RK stage (1,2,3,4) */
         CCTK_INT stage
         /* input: coarse k_i^(c) */
         CCTK_REAL k1c,
@@ -17,7 +17,7 @@ void fill_Ys(
         /* input: coarse dt */
         CCTK_REAL dtc,
         /* input: which iteration for fine grid, 1-first, 2-second */
-        CCTK_INT iteration,
+        CCTK_INT iteration
 ) {
   int rk_order = 4;
   CCTK_INT ncycle = 2; /* 2-to-1 time refinement */
