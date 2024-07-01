@@ -1,0 +1,85 @@
+\documentclass[prd,aps,a4paper,superscriptaddress,onecolumn,footinbib]{revtex4}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{dcolumn}
+\usepackage{bm}
+\usepackage{upgreek}
+\usepackage{slashed}
+\usepackage{amsmath}
+\usepackage{empheq}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{dsfont}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{ulem}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\setcounter{MaxMatrixCols}{18}
+
+
+
+%%
+\newcommand{\mytext}{}
+\newcommand{\LJ}[1]{{\textcolor{blue}{\mytext{LJ: #1}} }}
+\newcommand{\WT}[1]{{\textcolor{red}{\mytext{WT: #1}} }}
+%%
+
+
+
+\begin{document}
+\title{Notes on Z4c}
+
+\author{Liwei~Ji}
+\email{ljsma@rit.edu}
+\affiliation{Center for Computational Relativity and Gravitation,
+Rochester Institute of Technology, Rochester, New York 14623, USA}
+
+\maketitle
+
+\tableofcontents
+
+\lstset{numbers=left,
+  numberstyle= \tiny,
+  keywordstyle= \color{ blue!70},commentstyle=\color{red!50!green!50!blue!50},
+  frame=shadowbox,
+  rulesepcolor= \color{ red!20!green!20!blue!20}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Derivation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\Gamma^{k}{}_{ij}
+&=\frac{1}{2}\gamma^{kl}(\partial_i\gamma_{jl}+\partial_j\gamma_{li}-\partial_l\gamma_{ij})
+\\
+&=\frac{1}{2}\tilde\gamma^{kl}
+\left[
+  (\partial_i\tilde\gamma_{jl}-\partial_i\ln\chi\tilde\gamma_{jl})+
+  (\partial_j\tilde\gamma_{li}-\partial_j\ln\chi\tilde\gamma_{li})-
+  (\partial_l\tilde\gamma_{ij}-\partial_l\ln\chi\tilde\gamma_{ij})
+\right]
+\\
+&=\tilde\Gamma^k{}_{ij}
+-\frac{1}{2}
+(\partial_i\ln\chi\delta^k{}_j+\partial_j\ln\chi\delta^k{}_i
+-\tilde\gamma_{ij}\tilde\gamma^{kl}\partial_l\ln\chi)
+\end{align*}
+where
+$\partial_l\gamma_{ij}=\partial_l(\chi^{-1}\tilde\gamma_{ij})
+=\chi^{-1}(\partial_l\tilde{\gamma}_{ij}-\chi^{-1}\partial_l\chi\tilde\gamma_{ij})
+=\chi^{-1}(\partial_l\tilde{\gamma}_{ij}-\partial_l\ln\chi\tilde\gamma_{ij})$.
+
+
+\section{More}
+\cite{alexander1990solving}
+
+
+
+\bibliographystyle{unsrt}
+\bibliography{refs}
+
+\end{document}
