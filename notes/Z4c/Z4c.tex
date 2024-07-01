@@ -97,6 +97,33 @@ Rochester Institute of Technology, Rochester, New York 14623, USA}
     +\partial_{(i}\ln\chi\partial_{j)}\alpha
     -\frac{1}{2}\tilde\gamma_{ij}\tilde\gamma^{kl}\partial_l\ln\chi\partial_k\alpha
   \end{align}
+
+\item $\partial_k\tilde{A}^{ij}$:
+  \begin{align}
+    \partial_k\tilde{A}^{ij}
+    &=\partial_k
+    \left(
+      \tilde\gamma^{il}\tilde\gamma^{jm}\tilde{A}_{lm}
+    \right)
+    =
+    \partial_k\tilde\gamma^{il}\tilde\gamma^{jm}\tilde{A}_{lm}+
+    \tilde\gamma^{il}\partial_k\tilde\gamma^{jm}\tilde{A}_{lm}+
+    \tilde\gamma^{il}\tilde\gamma^{jm}\partial_k\tilde{A}_{lm}
+    \\
+    &=
+    -\tilde\gamma^{ip}\tilde\gamma^{lq}\partial_k\tilde\gamma_{pq}\tilde\gamma^{jm}\tilde{A}_{lm}
+    -\tilde\gamma^{il}\tilde\gamma^{jp}\tilde\gamma^{mq}\partial_k\tilde\gamma_{pq}\tilde{A}_{lm}
+    +\tilde\gamma^{il}\tilde\gamma^{jm}\partial_k\tilde{A}_{lm}
+    \\
+    &=
+    -\tilde\gamma^{ip}\tilde{A}^{jq}\partial_k\tilde\gamma_{pq}
+    -\tilde\gamma^{jp}\tilde{A}^{iq}\partial_k\tilde\gamma_{pq}
+    +\tilde\gamma^{il}\tilde\gamma^{jm}\partial_k\tilde{A}_{lm}
+    \\
+    &=
+    -2\tilde\gamma^{il}\tilde{A}^{jm}\partial_k\tilde\gamma_{lm}
+    +\tilde\gamma^{il}\tilde\gamma^{jm}\partial_k\tilde{A}_{lm}
+  \end{align}
 \end{itemize}
 
 
