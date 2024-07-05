@@ -134,6 +134,107 @@ Rochester Institute of Technology, Rochester, New York 14623, USA}
   \end{align}
 \end{itemize}
 
+\subsection{Erik's implementation}
+
+\subsubsection{Note}
+\begin{itemize}
+\item Evolve $\bar{g}_{ij}=\tilde{g}_{ij}-\delta{ij}$,
+\item Evolve $\bar{\chi}=\chi-1$,
+\item Evolve $\bar{\alpha}=\alpha-1$,
+\end{itemize}
+
+\subsubsection{Equations}
+\begin{align}
+  \bar{\gamma}^{ij}
+  &=(\bar{\gamma}_{ij}+\delta_{ij})^{-1}-\delta^{ij}
+  \\
+  \partial_k\bar{\gamma}^{ij}
+  &\equiv\partial_k\tilde{\gamma}^{ij}
+  =-\tilde\gamma^{il}\tilde\gamma^{jm}\partial_k\tilde\gamma_{lm}
+  =-(\bar\gamma^{il}+\delta^{il})(\bar\gamma^{jm}+\delta^{jm})\partial_k\bar\gamma_{lm}
+  \\
+  \tilde{\Gamma}_{kij}
+  &=\frac{1}{2}
+  \left(
+    \partial_i\bar{\gamma}_{jk}+
+    \partial_j\bar{\gamma}_{ki}-
+    \partial_k\bar{\gamma}_{ij}
+  \right)
+  \\
+  \tilde{\Gamma}_{ki}{}^j
+  &=\tilde{\Gamma}_{kil}(\bar\gamma^{lj}+\delta^{lj})
+  \\
+  \tilde{\Gamma}^k{}_{ij}
+  &=(\bar\gamma^{kl}+\delta^{kl})\tilde\Gamma_{lij}
+  \\
+  (\tilde\Gamma_d)^k
+  &=(\bar\gamma^{ij}+\delta^{ij})\tilde\Gamma^k{}_{ij}
+\end{align}
+
+\begin{align}
+  \tilde{D}_i\tilde{D}_j\chi
+  &=\partial_i\partial_j\chi
+  -\tilde\Gamma^k{}_{ij}\partial_k\chi
+  \\
+  \gamma^{ij}
+  &=(1+\bar\chi)(\bar\gamma^{ij}+\delta^{ij})
+  \\
+  \partial_k\gamma_{ij}
+  &=-\chi^{-2}\partial_k\chi\tilde\gamma_{ij}+\chi^{-1}\partial_k\tilde\gamma_{ij}
+  =-(1+\bar\chi)^{-2}\partial_k\bar\chi(\bar\gamma_{ij}+\delta_{ij})
+  +(1+\bar\chi)^{-1}\partial_k\bar\gamma_{ij}
+  \\
+  \Gamma_{kij}
+  &=\frac{1}{2}
+  \left(
+    \partial_i\gamma_{jk}+
+    \partial_j\gamma_{ki}-
+    \partial_k\gamma_{ij}
+  \right)
+  \\
+  \Gamma^k{}_{ij}
+  &=\gamma^{kl}\Gamma_{lij}
+  \\
+  D_iD_j\alpha
+  &=\partial_i\partial_j\bar\alpha-\Gamma^k{}_{ij}\partial_k\bar\alpha
+\end{align}
+
+\begin{align}
+  \tilde{R}^\chi_{ij}
+  &=\frac{1}{2(1+\bar\chi)}\tilde{D}_i\tilde{D}_j\chi
+  +\frac{1}{2(1+\bar\chi)}(\bar\gamma_{ij}+\delta_{ij})\tilde{D}^l\tilde{D}_l\chi
+  -\frac{1}{4(1+\bar\chi)^2}\partial_i\bar\chi\partial_j\bar\chi
+  -\frac{3}{4(1+\bar\chi)^2}
+  (\bar\gamma_{ij}+\delta_{ij})(\bar\gamma^{kl}+\delta^{kl})
+  \partial_k\bar\chi\partial_l\bar\chi
+  \\
+  \tilde{R}_{ij}
+  &=-\frac{1}{2}(\bar\gamma^{lm}+\delta^{lm})\partial_l\partial_m\bar\gamma_{ij}
+  +(\bar\gamma_{k(i}+\delta_{k(i})\partial_{j)}\tilde\Gamma^k
+  +(\tilde\Gamma_d)^k\tilde\Gamma_{(ij)k}
+  +(2\tilde\Gamma^k{}_{l(i}\tilde\Gamma_{j)k}{}^l+\tilde\Gamma^k{}_{im}\tilde\Gamma_{kj}{}^m)
+  \\
+  R_{ij}
+  &=\tilde{R}^\chi_{ij}+\tilde{R}_{ij}
+  \\
+  R
+  &=\gamma^{ij}R_{ij}
+\end{align}
+
+\begin{align}
+  \tilde{A}^{ij}
+  &=(\bar\gamma^{il}+\delta^{il})(\bar\gamma^{jm}+\delta^{jm})\tilde{A}_{lm}
+  \\
+  \partial_k\tilde{A}^{ij}
+  &=\partial_k
+  \left(
+    \tilde\gamma^{il}\tilde\gamma^{jm}\tilde{A}_{lm}
+  \right)
+  =\partial_k\bar\gamma^{il}(\bar\gamma^{jm}+\delta^{jm})\tilde{A}_{lm}
+  +(\bar\gamma^{il}+\delta^{il})\partial_k\bar\gamma^{jm}\tilde{A}_{lm}
+  +(\bar\gamma^{il}+\delta^{il})(\bar\gamma^{jm}+\delta^{jm})\partial_k\tilde{A}_{lm}
+\end{align}
+
 
 \section{More}
 \cite{alexander1990solving}
