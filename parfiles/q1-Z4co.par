@@ -117,7 +117,7 @@ TwoPuncturesX::verbose = yes
 
 Z4co::calc_ADM_vars = yes                  # for Weyl
 #Z4co::calc_ADMRHS_vars = no                # for Weyl
-#Z4co::calc_constraints = no
+Z4co::calc_constraints = yes
 
 Z4co::chi_floor = 1.0e-6
 Z4co::alphaG_floor = 1.0e-8
@@ -130,6 +130,8 @@ Multipole::l_max = 4
 Multipole::verbose = "yes"
 Multipole::interpolator_pars = "order=3"
 Multipole::out_every = 64
+
+WeylScal4::WeylScal4_psi4_calc_4th_calc_every = 64
 
 IO::out_dir = $parfile
 IO::out_every = 64
@@ -152,6 +154,12 @@ CarpetX::out_silo_vars = "
   ADMBaseX::metric
 "
 CarpetX::out_tsv_vars = "
+  Z4co::chi
+  Z4co::gamma_tilde
+  Z4co::K_hat
+  Z4co::A_tilde
+  Z4co::Gam_tilde
+  Z4co::Theta
   ADMBaseX::lapse
   ADMBaseX::shift
   ADMBaseX::metric
