@@ -8,6 +8,7 @@ $nlevels = 9
 $error_threshold = 0.9
 $dtfac = 0.25
 $out_every = 128
+$wave_extract_every = 256
 
 ActiveThorns = "
   ADMBaseX
@@ -18,6 +19,7 @@ ActiveThorns = "
   Multipole
   ODESolvers
   PunctureTracker
+  TerminationTrigger
   TimerReport
   TmunuBaseX
   TwoPuncturesX
@@ -65,15 +67,15 @@ CarpetX::max_tile_size_z = 4
 #CarpetX::max_grid_size_y = 64
 #CarpetX::max_grid_size_z = 32
 
-CarpetX::boundary_x = "dirichlet"
-CarpetX::boundary_y = "dirichlet"
-CarpetX::boundary_z = "dirichlet"
-CarpetX::boundary_upper_x = "dirichlet"
-CarpetX::boundary_upper_y = "dirichlet"
-CarpetX::boundary_upper_z = "dirichlet"
+CarpetX::boundary_x = "linear extrapolation"
+CarpetX::boundary_y = "linear extrapolation"
+CarpetX::boundary_z = "linear extrapolation"
+CarpetX::boundary_upper_x = "linear extrapolation"
+CarpetX::boundary_upper_y = "linear extrapolation"
+CarpetX::boundary_upper_z = "linear extrapolation"
 
 CarpetX::max_num_levels = $nlevels
-CarpetX::regrid_every = 32
+CarpetX::regrid_every = 16
 CarpetX::regrid_error_threshold = $error_threshold
 
 CarpetX::prolongation_type = "ddf"
@@ -124,23 +126,40 @@ Z4co::alphaG_floor = 1.0e-8
 Z4co::epsdiss = 0.32
 Z4co::boundary_conditions = "NewRadX"
 
-Multipole::radius[0] = 5.0
+Multipole::nradii       = 7
+Multipole::radius[0]    = 100
+Multipole::radius[1]    = 115
+Multipole::radius[2]    = 136
+Multipole::radius[3]    = 167
+Multipole::radius[4]    = 214
+Multipole::radius[5]    = 300
+Multipole::radius[6]    = 500
+Multipole::ntheta       = 120
+Multipole::nphi         = 240
 Multipole::variables = "WeylScal4::Psi4r{sw=-2 cmplx='WeylScal4::Psi4i' name='Psi4'}"
-Multipole::l_max = 4
+Multipole::out_every = $wave_extract_every
+Multipole::l_max = 8
 Multipole::verbose = "yes"
 Multipole::interpolator_pars = "order=3"
-Multipole::out_every = 64
 
-WeylScal4::WeylScal4_psi4_calc_4th_calc_every = 64
+#WeylScal4::WeylScal4_psi4_calc_4th_calc_every = $wave_extract_every
+
+TerminationTrigger::max_walltime                 = 48
+# Trigger termination 30 minutes before the walltime is reached
+TerminationTrigger::on_remaining_walltime        = 30
+TerminationTrigger::output_remtime_every_minutes = 30
+TerminationTrigger::termination_from_file        = yes
+TerminationTrigger::termination_file             = "terminate.txt"
+TerminationTrigger::create_termination_file      = yes
 
 IO::out_dir = $parfile
-IO::out_every = 64
+IO::out_every = $out_every
 IO::parfile_write = no
 IO::checkpoint_dir = "../checkpoint"
 IO::recover_dir    = "../checkpoint"
 IO::checkpoint_ID = no
 IO::checkpoint_every = 0
-IO::checkpoint_every_walltime_hours = 1.8
+#IO::checkpoint_every_walltime_hours = 23
 IO::checkpoint_on_terminate = yes
 IO::recover                 = "autoprobe"
 
@@ -148,11 +167,21 @@ CarpetX::checkpoint_method = "openpmd"
 CarpetX::recover_method    = "openpmd"
 CarpetX::out_norm_vars = "all"
 CarpetX::out_norm_omit_unstable = yes
-CarpetX::out_silo_vars = "
-  ADMBaseX::lapse
-  ADMBaseX::shift
-  ADMBaseX::metric
-"
+#CarpetX::out_silo_vars = "
+#  #Z4co::chi
+#  #Z4co::gamma_tilde
+#  #Z4co::K_hat
+#  #Z4co::A_tilde
+#  #Z4co::Gam_tilde
+#  #Z4co::Theta
+#  #Z4co::ZtC
+#  #Z4co::HC
+#  #Z4co::MtC
+#  ADMBaseX::lapse
+#  ADMBaseX::shift
+#  ADMBaseX::metric
+#  ADMBaseX::curv
+#"
 CarpetX::out_tsv_vars = "
   Z4co::chi
   Z4co::gamma_tilde
@@ -160,9 +189,13 @@ CarpetX::out_tsv_vars = "
   Z4co::A_tilde
   Z4co::Gam_tilde
   Z4co::Theta
+  Z4co::ZtC
+  Z4co::HC
+  Z4co::MtC
   ADMBaseX::lapse
   ADMBaseX::shift
   ADMBaseX::metric
+  ADMBaseX::curv
   PunctureTracker::pt_loc
   PunctureTracker::pt_vel
 "
