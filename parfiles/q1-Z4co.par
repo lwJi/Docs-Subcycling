@@ -6,7 +6,7 @@ $xmin               = -400.0
 $xmax               = +400.0
 $ncells             = 200
 $nlevels            = 9
-$dtfac              = 0.25
+$dtfac              = 64.0  # 0.25*2^{9-1}
 $error_threshold    = 0.9
 $out_every          = 128
 $wave_extract_every = 256
@@ -20,7 +20,7 @@ ActiveThorns = "
   Multipole
   ODESolvers
   PunctureTracker
-  TerminationTrigger
+  #TerminationTrigger
   TimerReport
   TmunuBaseX
   TwoPuncturesX
@@ -95,7 +95,7 @@ BoxInBox::radius_2     = [-1., 220., 110., 55., 25., 10., 5., 2., 1.]
 ODESolvers::verbose = no
 ODESolvers::method  = "RK4"
 
-PunctureTracker::verbose      = yes
+PunctureTracker::verbose      = no
 PunctureTracker::interp_order = 3
 PunctureTracker::track    [0] = yes
 PunctureTracker::initial_x[0] = +4.0
@@ -136,23 +136,24 @@ Multipole::out_every         = $wave_extract_every
 Multipole::l_max             = 8
 Multipole::interpolator_pars = "order=3"
 
-TerminationTrigger::max_walltime                 = 48
-# Trigger termination 30 minutes before the walltime is reached
-TerminationTrigger::on_remaining_walltime        = 30
-TerminationTrigger::output_remtime_every_minutes = 30
-TerminationTrigger::termination_from_file        = yes
-TerminationTrigger::termination_file             = "terminate.txt"
-TerminationTrigger::create_termination_file      = yes
+#TerminationTrigger::max_walltime                 = 48
+## Trigger termination 30 minutes before the walltime is reached
+#TerminationTrigger::on_remaining_walltime        = 30
+#TerminationTrigger::output_remtime_every_minutes = 30
+#TerminationTrigger::termination_from_file        = yes
+#TerminationTrigger::termination_file             = "terminate.txt"
+#TerminationTrigger::create_termination_file      = yes
 
-IO::out_dir                 = $parfile
-IO::out_every               = $out_every
-IO::parfile_write           = no
-IO::checkpoint_dir          = "../checkpoint"
-IO::recover_dir             = "../checkpoint"
-IO::checkpoint_ID           = no
-IO::checkpoint_every        = 0
-IO::checkpoint_on_terminate = yes
-IO::recover                 = "autoprobe"
+IO::out_dir                         = $parfile
+IO::out_every                       = $out_every
+IO::parfile_write                   = no
+IO::checkpoint_dir                  = "../checkpoint"
+IO::recover_dir                     = "../checkpoint"
+IO::checkpoint_ID                   = no
+IO::checkpoint_every                = 0
+IO::checkpoint_every_walltime_hours = 23.5
+IO::checkpoint_on_terminate         = yes
+IO::recover                         = "autoprobe"
 
 CarpetX::checkpoint_method      = "openpmd"
 CarpetX::recover_method         = "openpmd"
